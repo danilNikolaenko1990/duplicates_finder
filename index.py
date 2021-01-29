@@ -14,11 +14,14 @@ folders_list_to_skan = [
     "/home/danil/DCIM",
     "/home/danil/DCIM2",
     "/home/danil/Documents",
-    "/home/danil/Downloads",
     "/home/danil/Pictures",
     "/home/danil/qumo_flash",
     "/home/danil/книги",
     "/home/danil/книги марку",
+
+    "/media/danil/TV/фотки",
+    "/media/danil/TV/xiaomi_danil",
+    "/media/danil/TV/kvitancii",
 ]
 
 # игнорировать эти расширения
@@ -35,6 +38,7 @@ ignored_folders_abs = [
     '/home/danil/dell_latitude/go',
     '/home/danil/dell_latitude/iqoption',
     '/home/danil/dell_latitude/go'
+    '.git'
 ]
 
 # игнорировать файлы, которые лежат в таких папках
@@ -44,7 +48,7 @@ ignored_folders_rel = [
 ]
 
 # вычисление md5 на больших файлах будет делаться медленно, поэтому скипаем их
-MAX_FILE_SIZE_TO_CHECK_IN_MB = 1000
+MAX_FILE_SIZE_TO_CHECK_IN_MB = 100000
 
 FILENAMES = "filenames"
 COUNT = "count"
@@ -106,6 +110,7 @@ def scan(dirName: str, files: dict):
             continue
         if folder_ignored(dirpath):
             continue
+        print("scanning folder {foldername}".format(foldername=dirpath))
         for file in filenames:
             if file_extension_ignored(file):
                 continue
@@ -133,6 +138,7 @@ def scan(dirName: str, files: dict):
 for folder_to_scan in folders_list_to_skan:
     scan(folder_to_scan, files)
 
+print("-------report---------")
 for file_key in files:
     file_data = files.get(file_key)
     if file_data[COUNT] > 1:
@@ -140,3 +146,11 @@ for file_key in files:
                                                                              filesize="{:.2f}".format(file_data[SIZE])))
         for duplicate_path in file_data[FILENAMES]:
             print(" " * 2 + duplicate_path)
+
+print("----clear duplicates----")
+for file_key in files:
+    file_data = files.get(file_key)
+    if file_data[COUNT] > 1:
+        print("new duplicate")
+        for duplicate_path in file_data[FILENAMES]:
+            print(duplicate_path)
