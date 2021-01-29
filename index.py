@@ -11,19 +11,29 @@ folders_list_to_skan = [
     "/home/danil/Dropbox (Old)",
     "/home/danil/dropbox_old2",
     "/home/danil/dell_latitude",
+    "/home/danil/DCIM",
+    "/home/danil/DCIM2",
+    "/home/danil/Documents",
+    "/home/danil/Downloads",
+    "/home/danil/Pictures",
+    "/home/danil/qumo_flash",
+    "/home/danil/книги",
+    "/home/danil/книги марку",
 ]
 
 # игнорировать эти расширения
 file_extensions_to_ignore = [
-    'yml',
-    'php',
-    'go',
-    'java',
-    'html'
+    '.yml',
+    '.php',
+    '.go',
+    '.java',
+    '.html'
 ]
 
 # игнорировать эти папки, абсолютный путь
 ignored_folders_abs = [
+    '/home/danil/dell_latitude/go',
+    '/home/danil/dell_latitude/iqoption',
     '/home/danil/dell_latitude/go'
 ]
 
@@ -50,7 +60,7 @@ def md5(fname: str):
 
 
 def make_file_name(dirpath: str, filename: str):
-    return dirpath + "/" + filename
+    return os.path.join(dirpath, filename)
 
 
 def convert_human_readable(size_in_bytes):
@@ -74,7 +84,11 @@ def file_extension_ignored(file: str):
 
 
 def path_ignored(path: str):
-    return path in ignored_folders_abs
+    for ignored_folder in ignored_folders_abs:
+        if ignored_folder in path:
+            return True
+
+    return False
 
 
 def folder_ignored(path: str) -> bool:
