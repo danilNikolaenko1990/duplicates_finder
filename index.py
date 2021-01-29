@@ -9,19 +9,6 @@ import pathlib
 folders_list_to_skan = [
     "/home/danil/Dropbox",
     "/home/danil/Dropbox (Old)",
-    "/home/danil/dropbox_old2",
-    "/home/danil/dell_latitude",
-    "/home/danil/DCIM",
-    "/home/danil/DCIM2",
-    "/home/danil/Documents",
-    "/home/danil/Pictures",
-    "/home/danil/qumo_flash",
-    "/home/danil/книги",
-    "/home/danil/книги марку",
-
-    "/media/danil/TV/фотки",
-    "/media/danil/TV/xiaomi_danil",
-    "/media/danil/TV/kvitancii",
 ]
 
 # игнорировать эти расширения
@@ -36,8 +23,6 @@ file_extensions_to_ignore = [
 # игнорировать эти папки, абсолютный путь
 ignored_folders_abs = [
     '/home/danil/dell_latitude/go',
-    '/home/danil/dell_latitude/iqoption',
-    '/home/danil/dell_latitude/go'
     '.git'
 ]
 
