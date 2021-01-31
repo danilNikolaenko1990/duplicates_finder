@@ -1,0 +1,24 @@
+#список папок, которые надо сканировать
+folders_list_to_skan:
+  - "/home/danil/Dropbox"
+  - "/home/danil/Dropbox (Old)"
+
+# игнорировать эти расширения
+file_extensions_to_ignore:
+  - '.yml'
+  - '.php'
+  - '.go'
+  - '.java'
+  - '.html'
+
+# игнорировать файлы, которые лежат в таких папках
+ignored_folders_rel:
+  - '.git',
+  - 'go',
+
+ignored_folders_abs:
+  - "/home/danil/dell_latitude/go"
+  - ".git"
+
+# вычисление md5 на больших файлах будет делаться медленно, поэтому скипаем их
+MAX_FILE_SIZE_TO_CHECK_IN_MB: 1000

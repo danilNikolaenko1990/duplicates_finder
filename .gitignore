@@ -1,0 +1,7 @@
+__pycache__/
+bin/
+duplicates.txt
+lib/
+lib64
+pyvenv.cfg
+config.yml

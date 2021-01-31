@@ -1,43 +1,26 @@
-#!/usr/bin/env python
 from os import walk
 import os
 import hashlib
 import os.path
 import pathlib
-
-# список папок, которые надо сканировать
-folders_list_to_skan = [
-    "/home/danil/Dropbox",
-    "/home/danil/Dropbox (Old)",
-]
-
-# игнорировать эти расширения
-file_extensions_to_ignore = [
-    '.yml',
-    '.php',
-    '.go',
-    '.java',
-    '.html'
-]
-
-# игнорировать эти папки, абсолютный путь
-ignored_folders_abs = [
-    '/home/danil/dell_latitude/go',
-    '.git'
-]
-
-# игнорировать файлы, которые лежат в таких папках
-ignored_folders_rel = [
-    '.git',
-    'go',
-]
-
-# вычисление md5 на больших файлах будет делаться медленно, поэтому скипаем их
-MAX_FILE_SIZE_TO_CHECK_IN_MB = 100000
+import yaml
 
 FILENAMES = "filenames"
 COUNT = "count"
 SIZE = "size"
+
+
+def get_config() -> dict:
+    with open(r'config.yml') as file:
+        return yaml.load(file, Loader=yaml.FullLoader)
+
+
+config = get_config()
+folders_list_to_skan = config.get('folders_list_to_skan')
+file_extensions_to_ignore = config.get('file_extensions_to_ignore')
+ignored_folders_rel = config.get('ignored_folders_rel')
+ignored_folders_abs = config.get('ignored_folders_abs')
+MAX_FILE_SIZE_TO_CHECK_IN_MB = config.get('MAX_FILE_SIZE_TO_CHECK_IN_MB')
 
 
 def md5(fname: str):
@@ -118,24 +101,3 @@ def scan(dirName: str, files: dict):
                 existing_file[COUNT] = existing_file[COUNT] + 1
                 existing_file[FILENAMES].append(full_file_name)
                 files[key] = existing_file
-
-
-for folder_to_scan in folders_list_to_skan:
-    scan(folder_to_scan, files)
-
-print("-------report---------")
-for file_key in files:
-    file_data = files.get(file_key)
-    if file_data[COUNT] > 1:
-        print("count: {count}, filesize in MB:{filesize}, filepaths:".format(count=file_data[COUNT],
-                                                                             filesize="{:.2f}".format(file_data[SIZE])))
-        for duplicate_path in file_data[FILENAMES]:
-            print(" " * 2 + duplicate_path)
-
-print("----clear duplicates----")
-for file_key in files:
-    file_data = files.get(file_key)
-    if file_data[COUNT] > 1:
-        print("new duplicate")
-        for duplicate_path in file_data[FILENAMES]:
-            print(duplicate_path)
